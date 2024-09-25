@@ -1,0 +1,96 @@
+.alert{
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    @include flexCentre();
+
+    .alert-content{
+        position: relative;
+        z-index: 1;
+        width: 400px;
+        min-height: 225px;
+        background: #fff;
+        border-radius: 12px;        
+
+        animation-name: alert-popin;
+        animation-duration: 0.25s;
+        transform: scale(1.0);
+
+        .alert-header{
+            padding: 16px 0px;
+            span{
+                display: block;
+                font-size: 24px;
+                padding: 12px 0px;   
+                text-align: center;             
+            }
+        }
+
+        .alert-message{
+            padding: 16px 0px;
+            span{
+                display: block;
+                font-size: 16px;
+                text-align: center;
+                padding: 12px;
+            }
+        }
+
+        .alert-button{
+            padding: 16px 0px;
+            
+            button{
+                @include signPageInput();
+                width: max-content;
+                border: 1px solid #000;
+                background-color: #000;
+
+                font-size: 16px;
+                margin: auto;               
+                color: #fff;                
+            }
+        }
+    }
+
+    .alert-bg{
+
+        position: absolute;
+        z-index: 0;
+        top: 0;
+        left: 0;
+        width: inherit;
+        height: inherit;
+        background: #000;
+        opacity: 0.3;
+    }
+
+}
+
+
+.alert-success{
+    @include alertIcon('../media/alert/success.png');
+}
+
+.alert-warning{
+    @include alertIcon('../media/alert/warning.png');
+}
+
+.alert-error{
+    @include alertIcon('../media/alert/error.png');
+}
+
+
+@keyframes alert-popin {
+    0%{
+        transform: scale(1.0);
+    }
+    30%{
+        transform: scale(1.1);
+    }
+    100%{
+        transform: scale(1.0);
+    }
+}

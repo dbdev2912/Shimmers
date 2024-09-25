@@ -1,0 +1,32 @@
+@mixin unselectableImage($url) {
+    display: block;
+    background-image: url($url);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin alertIcon($url){
+    @include unselectableImage($url);
+    width: 84px;
+    height: 84px;
+    margin: auto;
+}
+
+@mixin signPageInput {
+    width: 100%;
+    display: block;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 24px;
+    padding: 12px 24px;
+    font-size: 16px;
+    background: transparent;    
+}
+
+@mixin flexCentre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
