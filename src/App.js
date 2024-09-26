@@ -11,7 +11,7 @@ import {
 import './css/index.scss';
 
 
-import { SignIn, Home } from './routes'
+import { SignIn, SignUp, Home } from './routes'
 import Alert from './cpn/moc-alert';
 
 
@@ -28,6 +28,7 @@ function App() {
                 <Router>
                     <Routes>                    
                         <Route exac path="/signin" element={<SignIn />} />
+                        <Route exac path="/signup" element={<SignUp />} />
                         <Route exac path="/" element={<Home />} />                    
                     </Routes>
                 </Router>

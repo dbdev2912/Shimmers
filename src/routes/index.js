@@ -1,8 +1,12 @@
 import SignIn from "./auth/sign-in";
-import Home from './home/home';
+import SignUp from "./auth/sign-up";
 
+import Home from './home/home';
 
 export {
     SignIn,
-    Home
+    SignUp,
+
+    
+    Home,
 }

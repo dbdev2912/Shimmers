@@ -154,7 +154,7 @@ export default () => {
 
                         {/** Navigate to sign up page */}
                         <div className="field" style={{padding: 0}}>
-                            <button className="submit-button button-not-colored">sign up</button>
+                            <button className="submit-button button-not-colored" onClick={ () => { navigate('/signup') } }>sign up</button>
                         </div>
 
                     </div>
