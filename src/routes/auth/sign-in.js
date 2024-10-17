@@ -55,7 +55,7 @@ export default () => {
                 })
                 const serialized_data = await response.json()
                 const { data } = serialized_data
-                const { success, code } = data
+                const { success, code, user } = data
 
                 /**
                  * 
@@ -68,6 +68,7 @@ export default () => {
 
                 if( success ){
                     functions.sessionEstablish( data.token )
+                    functions.saveUserData( user )
                     navigate('/')
                 }else{
                     Alert.throwError("Invalid credential!!")

@@ -1,0 +1,169 @@
+@import '../enum.scss';
+
+.navbar {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    max-width: $navbarWidth;
+    background-color: $navabrBG;
+
+    @include generalFlexColumn;
+
+    .nav-list { 
+        // nav-bar ->nav-list
+        margin: $mg 0;
+
+        .nav-list-title {
+            // nav-bar -> nav-list -> nav-list-title
+            padding: $pds;
+            @include headerText;
+            font-weight: bold;
+        }
+
+        .nav-item {
+            // nav-bar -> nav-list -> nav-item
+            padding: $pds;
+            @include generalFlexWrap();
+            @include generalTransition();
+            cursor: pointer;
+            width: 100%;
+
+            .nav-item-icon {
+                // nav-bar -> nav-list -> nav-item -> nav-item-icon
+                img {
+                    display: block;
+                    width: 32px;
+                }
+            }
+
+            .nav-link {
+                // nav-bar -> nav-list -> nav-item -> nav-link
+                padding: $pds;
+                flex-grow: 2;
+
+                a {
+                    text-decoration: none;
+                    color: $textColor;
+                    display: block;
+                    width: 100%;
+                }
+            }
+        }
+
+        .nav-item-hover{
+            // nav-bar -> nav-list -> nav-item-hover
+            .nav-link {
+                a{
+                    color: $const-color-text-4 !important;
+                }
+            }
+        }
+    }
+
+    .nav-list-bottom {
+        margin-top: auto;
+    }
+}
+
+/*
+
+    SIDEBAR SCSS
+
+*/
+
+.side-bar {
+    position: fixed;
+    z-index: 100;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    max-width: $sideBarWidth;
+    background-color: $navabrBG;
+
+    @include generalFlexColumn;
+
+    .user-bar { // side-bar -> user-bar 
+        @include generalFlexNoWrap;
+
+        .app-mode { // side-bar -> user-bar -> app-mode
+            padding: $pds;
+
+            .track { // side-bar -> user-bar -> app-mode -> track
+                width: 84px;
+                height: 32px;
+                border-radius: 16px;
+                position: relative;
+                background-color: $mainAppBg;
+
+                .thumb { // side-bar -> user-bar -> app-mode -> track -> thumb
+                    display: block;
+                    width: 28px;
+                    height: 28px;
+                    position: absolute;
+                    top: 2px;
+                    left: 2px;
+                    border-radius: 50%;
+                    z-index: 1;
+    
+                    @include imageAsBackgroundNoImage();
+                    @include generalTransition();
+                    background-size: 75%;
+                }
+    
+                .thumb-bg {  // side-bar -> user-bar -> app-mode -> track -> thumb-bg
+                    display: block;
+                    width: 28px;
+                    height: 28px;
+                    position: absolute;
+                    top: 2px;
+                    left: 2px;
+                    border-radius: 50%;
+                    z-index: 0;
+                    background-color: $navabrBG;
+                    @include generalTransition();
+                }
+            }
+            
+            .track-right{ // side-bar -> user-bar -> app-mode -> track-right
+
+                .thumb{
+                    left: 54px;
+                }
+                .thumb-bg{
+                    left: 54px;                    
+                }
+            }
+
+        }
+
+        .avatar { // side-bar -> user-bar -> avatar
+            padding: $pds;
+
+            img {
+                width: 32px;
+                border-radius: 50%;
+            }
+        }
+
+        .fullname { // side-bar -> user-bar -> fullname
+            padding: $pds;
+            color: $textColor;
+        }
+
+        .sign-out{ // side-bar -> user-bar -> sign-out
+            padding: $pds;
+            margin-left: auto;
+
+            .sign-out-icon{
+                @include imageAsBackground('../media/signout.png');
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+            }
+        }
+    }
+}

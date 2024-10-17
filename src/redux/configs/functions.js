@@ -1,3 +1,5 @@
+import store from '../store'
+
 const sessionEstablish = ( token ) => {
 
     /**
@@ -13,7 +15,7 @@ const sessionEstablish = ( token ) => {
      * 
      */
 
-    localStorage.setItem('_token', `TOKEN ${ token }`)
+    localStorage.setItem('_token', `${ token }`)
 }
 
 const sessionCheck = () => {
@@ -41,9 +43,16 @@ const sessionDestroy = () => {
      * Destroy connection by removin' _token from localstorage,
      * with no _token, the routing will automatically redirect to sign in page
      * 
+     * Then dispatch request destroy state.user to reducer
+     * 
      */
 
     localStorage.removeItem('_token')
+
+    store.dispatch({
+        branch: 'setting',
+        type: 'destroyUserData',        
+    })
 }
 
 const getToken = () => {
@@ -56,12 +65,32 @@ const getToken = () => {
     return localStorage.getItem('_token')
 }
 
+const saveUserData = ( user ) => {
+
+    /**
+     * 
+     * Save user data to redux state for further uses
+     * 
+     * @params
+     *  - user <Object> 
+     *      -> Go to reducer => branch "setting" => setUserData for more detail
+     */
+    store.dispatch({
+        branch: 'setting',
+        type: 'setUserData',
+        payload: {
+            user
+        }
+    })
+}
+
 
 
 export default {
     sessionEstablish,
     sessionCheck,
     sessionDestroy,
-    getToken
+    getToken,
+    saveUserData
 }
 

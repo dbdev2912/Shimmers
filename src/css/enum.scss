@@ -1,0 +1,156 @@
+.light-theme{
+    --mainAppBg : #f0f0f0;
+    --navbarBg  : #ffffff;
+
+    --textColor   : #333333;
+    --headingColor: #000000;
+
+    --color-text-1:  #000000;
+    --color-text-2:  #111111;
+    --color-text-3:  #222222;
+    --color-text-4:  #333333;
+    --color-text-5:  #444444;
+    --color-text-6:  #555555;
+    --color-text-7:  #666666;
+    --color-text-8:  #777777;
+    --color-text-9:  #888888;
+    --color-text-10: #999999;
+    --color-text-11: #aaaaaa;
+    --color-text-12: #bbbbbb;
+    --color-text-13: #cccccc;
+    --color-text-14: #dddddd;
+    --color-text-15: #eeeeee;
+    --color-text-16: #ffffff;
+}
+
+.dark-theme{
+    --mainAppBg: #555555;
+    --navbarBg : #333333;
+
+    --textColor   : #cccccc;
+    --headingColor: #ffffff;
+
+    --color-text-1: #ffffff;
+    --color-text-2: #eeeeee;
+    --color-text-3: #dddddd;
+    --color-text-4: #cccccc;
+    --color-text-5: #bbbbbb;
+    --color-text-6: #aaaaaa;
+    --color-text-7: #999999;
+    --color-text-8: #888888;
+    --color-text-9: #777777;
+    --color-text-10:#666666;
+    --color-text-11:#555555;
+    --color-text-12:#444444;
+    --color-text-13:#333333;
+    --color-text-14:#222222;
+    --color-text-15:#111111;
+    --color-text-16:#000000;
+}
+
+
+/*
+    ENUM NUMEROUS MEASURES
+*/
+
+$navbarWidth : 225px;
+$sideBarWidth: 350px;
+
+$pd: 6px;
+$mg: 6px;
+
+$pds: 6px 8px;
+$mgs: 6px 8px; 
+
+
+$transitionDuration: 0.25s;
+
+/*
+    ENUM COLORS;
+*/
+
+$mainAppBg   :var(--mainAppBg);
+$navabrBG    :var(--navbarBg);
+
+
+$textColor   : var(--textColor);
+$headingColor: var(--headingColor);
+
+/* Dynamic color used for correspond mode */
+$color-text-1 :  var(--color-text-1);
+$color-text-2 :  var(--color-text-2);
+$color-text-3 :  var(--color-text-3);
+$color-text-4 :  var(--color-text-4);
+$color-text-5 :  var(--color-text-5);
+$color-text-6 :  var(--color-text-6);
+$color-text-7 :  var(--color-text-7);
+$color-text-8 :  var(--color-text-8);
+$color-text-9 :  var(--color-text-9);
+$color-text-10 : var(--color-text-10);
+$color-text-11 : var(--color-text-11);
+$color-text-12 : var(--color-text-12);
+$color-text-13 : var(--color-text-13);
+$color-text-14 : var(--color-text-14);
+$color-text-15 : var(--color-text-15);
+$color-text-16 : var(--color-text-16);
+
+/* Const color used for all modes */
+$const-color-text-1 :  #000000;
+$const-color-text-2 :  #111111;
+$const-color-text-3 :  #222222;
+$const-color-text-4 :  #333333;
+$const-color-text-5 :  #444444;
+$const-color-text-6 :  #555555;
+$const-color-text-7 :  #666666;
+$const-color-text-8 :  #777777;
+$const-color-text-9 :  #888888;
+$const-color-text-10 : #999999;
+$const-color-text-11 : #aaaaaa;
+$const-color-text-12 : #bbbbbb;
+$const-color-text-13 : #cccccc;
+$const-color-text-14 : #dddddd;
+$const-color-text-15 : #eeeeee;
+$const-color-text-16 : #ffffff;
+
+
+/*
+    MIXINS
+*/
+
+@mixin generalFlexWrap(){
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+@mixin generalFlexNoWrap(){
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+@mixin generalFlexColumn(){
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin headerText(){
+    color: $headingColor;
+    font-size: 1.1em;
+}
+
+@mixin generalTransition(){
+    transition: ease-in-out $transitionDuration;
+}
+
+@mixin imageAsBackgroundNoImage(){
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;    
+    display: block
+}
+
+@mixin imageAsBackground(  $imageUrl ){
+    @include imageAsBackgroundNoImage();
+    background-image: url($imageUrl); 
+}

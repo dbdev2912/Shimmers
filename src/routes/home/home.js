@@ -10,19 +10,17 @@ export default () => {
         if( !sessionCheck ){
             navigator('/signin')
         }
-    })
+    }, [])
 
-    const signout = () => {
-        functions.sessionDestroy()
-        navigator('/signin')
-    }
-
-    
+        
 
     return(
         <div>
-            <h1>Home</h1>
-            <button onClick={ signout }>sign out</button>
+            <div className="main-app">
+                <h1>Home</h1>
+                
+            </div>
+            <div className="main-app-bg"/>
         </div>
     )
 }
