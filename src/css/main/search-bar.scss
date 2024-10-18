@@ -1,0 +1,43 @@
+@import '../enum.scss';
+
+.search-bar{    
+    display: block;
+    width: 100%;
+    padding: $pds;
+    
+    .search-bar-container{
+        background-color: $navabrBG;
+        padding: $pds;
+        @include generalFlexNoWrap;    
+        border-radius: $borderRadius;
+        
+        .search-icon{
+
+            .manifying-glass{
+                display: block;
+                width: 32px;
+                height: 32px;
+                @include imageAsBackground( '../media/search-dark.png' );
+                background-size: 50%;                
+                opacity: 0.8;
+            }
+
+            .light-glass{
+                @include imageAsBackground( '../media/search-light.png' );
+                background-size: 50%; 
+            }
+        }
+        .search-input{
+            flex-grow: 2;
+
+            input{
+                display: block;
+                width: 100%;
+                padding: $pds;
+                background-color: transparent;
+                @include noBorder;
+                color: $textColor;
+            }
+        }
+    }
+}

@@ -21,6 +21,8 @@
     --color-text-14: #dddddd;
     --color-text-15: #eeeeee;
     --color-text-16: #ffffff;
+
+    --search-icon-url: '../media/search-dark.png';
 }
 
 .dark-theme{
@@ -46,6 +48,8 @@
     --color-text-14:#222222;
     --color-text-15:#111111;
     --color-text-16:#000000;
+
+    --search-icon-url: '../media/search-light.png';
 }
 
 
@@ -64,6 +68,8 @@ $mgs: 6px 8px;
 
 
 $transitionDuration: 0.25s;
+
+$borderRadius: 6px;
 
 /*
     ENUM COLORS;
@@ -112,6 +118,10 @@ $const-color-text-14 : #dddddd;
 $const-color-text-15 : #eeeeee;
 $const-color-text-16 : #ffffff;
 
+/* OTHER CONSTS */
+
+$search-icon-url: var(--search-icon-url);
+
 
 /*
     MIXINS
@@ -143,6 +153,10 @@ $const-color-text-16 : #ffffff;
     transition: ease-in-out $transitionDuration;
 }
 
+@mixin noTransition(){
+    transition: none;
+}
+
 @mixin imageAsBackgroundNoImage(){
     background-position: center;
     background-size: cover;
@@ -153,4 +167,9 @@ $const-color-text-16 : #ffffff;
 @mixin imageAsBackground(  $imageUrl ){
     @include imageAsBackgroundNoImage();
     background-image: url($imageUrl); 
+}
+
+@mixin noBorder(){
+    border: none;
+    outline: none;
 }

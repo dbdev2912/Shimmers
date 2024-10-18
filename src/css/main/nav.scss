@@ -98,6 +98,7 @@
                 border-radius: 16px;
                 position: relative;
                 background-color: $mainAppBg;
+                cursor: pointer;
 
                 .thumb { // side-bar -> user-bar -> app-mode -> track -> thumb
                     display: block;

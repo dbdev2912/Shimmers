@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NavigationBar = (props) => {
     /**
@@ -21,7 +22,7 @@ const NavigationBar = (props) => {
             id: 1,
             title: "Danh mục",
             items: [
-                { id: 0, icon: 'cat-2.png', hoverColor: "#fac9de", title: 'Công việc', url: '/' },
+                { id: 0, icon: 'cat-2.png', hoverColor: "#fac9de", title: 'Nhắc nhở', url: '/section/reminders' },
                 { id: 1, icon: 'cat-1.png', hoverColor: "#cab6db", title: 'Học tập', url: '/' },
                 { id: 2, icon: 'cat-3.png', hoverColor: "#f7b1cd", title: 'Xem', url: '/' },
             ]
@@ -69,7 +70,9 @@ const NavLink = (props) => {
      */
     const { data } = props;
     const { icon, url, title, hoverColor } = data;    
-    const [ hover, setHover ] = useState(0)
+    const [ hover, setHover ] = useState(0);
+
+    const navigator = useNavigate()
 
     return (
         <div className={`nav-item ${ hover ? 'nav-item-hover': '' }`}
@@ -81,7 +84,7 @@ const NavLink = (props) => {
                 <img src={`/icons/${icon}`} />
             </div>
             <div className="nav-link">
-                <a href={url}>{title}</a>
+                <a onClick={ () => { navigator(url) } }>{title}</a>
             </div>
         </div>
     )

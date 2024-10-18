@@ -1,0 +1,60 @@
+@import '../enum.scss';
+
+
+/*
+
+Sectrion header bar
+
+*/
+
+.section-header{
+    @include generalFlexNoWrap;
+    padding: $pds;
+
+    .section-title{
+        span{
+            color: $headingColor;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+    }
+
+    .add-button{        
+        @include generalFlexNoWrap;
+        margin-left: auto;
+
+        .button-container{
+            @include generalFlexNoWrap;
+            padding: $pds;
+            background-color: $navabrBG;
+            cursor: pointer;
+            border-radius: $borderRadius;
+
+
+            .button-icon{
+                @include noBorder;
+
+                .plus{
+                    @include imageAsBackground('../media/plus-dark.png');
+                    background-size: 75%;
+                    width: 24px;
+                    height: 24px;
+                }
+
+                .plus-light{
+                    @include imageAsBackground('../media/plus-light.png');
+                    background-size: 75%;
+                }
+            }
+
+            .button-content{
+                padding: $pds;
+
+                span{
+                    color:$textColor;
+                }
+            }
+            
+        }
+    }
+}
