@@ -1,19 +1,19 @@
-export default ( state, action ) => {
+const Reducer = ( state, action ) => {
     switch (action.type) {
         case "appmode":
             return swicthAppMode(state, action);
-            break;
+
         
         case "setUserData":
             return saveUserData(state, action);
-            break
+
 
         case "destroyUserData":
             return destroyUserData(state, action);
-            break;
+
         default:
             return { ...state }
-            break;
+
     }
 }
 
@@ -57,3 +57,5 @@ const destroyUserData = ( state, action ) => {
     delete state.user;
     return { ...state }
 }
+
+export default Reducer;

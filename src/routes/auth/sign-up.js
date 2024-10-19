@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-export default () => {    
+const SignUp = () => {    
     const proxy = useSelector( state => state.proxy )
     const Alert = useSelector( state => state.Alert )
     const functions = useSelector( state => state.functions )
@@ -162,7 +162,7 @@ export default () => {
          */
 
         const keycode = e.keyCode;
-        if(keycode == 13){
+        if(keycode === 13){
             NextStepCheck()
         }
 
@@ -177,7 +177,7 @@ export default () => {
          */
 
         const keycode = e.keyCode;
-        if(keycode == 13){
+        if(keycode === 13){
             SignUpRequest()
         }
     }
@@ -298,3 +298,5 @@ export default () => {
         </div>
     )
 }
+
+export default SignUp

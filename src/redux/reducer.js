@@ -22,18 +22,21 @@ const initialState = {
 }
 
 
-export default ( state = initialState, action ) => {
+const RootRuducer = ( state = initialState, action ) => {
     switch (action.branch) {
 
         case 'alert':
             return alertBranch( state, action );
-            break;
+
 
         case 'setting':
             return settingsBranch( state, action );
 
         default: /* The branch always goes here */
             return defaultBranch( state, action )
-            break;
+
     }
 }
+
+
+export default RootRuducer;

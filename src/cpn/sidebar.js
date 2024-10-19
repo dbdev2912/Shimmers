@@ -62,7 +62,7 @@ const Sidebar = () => {
                     }
                 </div>
                 <div className="avatar">
-                    <img src={`${ proxy }${ user.avatar }`}/>
+                    <img alt="" src={`${ proxy }${ user.avatar }`}/>
                 </div>
                 <div className="fullname">
                     <span>{ user.fullname }</span>

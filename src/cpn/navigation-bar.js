@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
+/* eslint-disable jsx-a11y/anchor-is-valid */
 const NavigationBar = (props) => {
     /**
      * 
@@ -81,13 +83,13 @@ const NavLink = (props) => {
             style = { hover ? { backgroundColor: hoverColor }: {} }
             >
             <div className="nav-item-icon">
-                <img src={`/icons/${icon}`} />
+                <img alt="" src={`/icons/${icon}`} />
             </div>
             <div className="nav-link">
-                <a onClick={ () => { navigator(url) } }>{title}</a>
+                <a onClick={ () => { navigator(url)  } } href="">{title}</a>
             </div>
         </div>
     )
-}
+} 
 
 export default NavigationBar

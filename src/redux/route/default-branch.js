@@ -1,10 +1,13 @@
-export default ( state, action ) => {
+const Reducer = ( state, action ) => {
     switch (action.type) {
         case "expression":
 
             break;
         default:
             return { ...state }
-            break;
+
     }
 }
+
+
+export default Reducer;

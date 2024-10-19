@@ -5,6 +5,8 @@ const ReminderCreator = () => {
             <SectionHeader 
                 title = "TẠO NHẮC NHỞ"               
             />
+
+            
         </div>
     )
 }

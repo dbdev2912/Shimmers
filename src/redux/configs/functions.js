@@ -30,7 +30,7 @@ const sessionCheck = () => {
      */
 
     const token = localStorage.getItem('_token')
-    if( token != undefined && typeof(token) == 'string'){
+    if( token !== undefined && typeof(token) === 'string'){
         return true 
     }
     return false 
@@ -84,13 +84,14 @@ const saveUserData = ( user ) => {
     })
 }
 
-
-
-export default {
+const exportFuncs = {
     sessionEstablish,
     sessionCheck,
     sessionDestroy,
     getToken,
     saveUserData
 }
+
+
+export default exportFuncs
 

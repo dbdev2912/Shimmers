@@ -1,7 +1,6 @@
-import { useEffect } from "react"
 import { useSelector } from "react-redux"
 
-export default () => {
+const CustomAlert = () => {
     const Alert = useSelector( state => state.Alert )
     const AlertState = useSelector( state => state.Alert.state )
     
@@ -27,3 +26,5 @@ export default () => {
         </div>
     )
 }
+
+export default CustomAlert

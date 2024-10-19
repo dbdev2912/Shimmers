@@ -1,5 +1,7 @@
 import vi from './vi'
 
-export default {
+const lang = {
     vi
 }
+
+export default lang

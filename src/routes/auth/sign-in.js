@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-export default () => {    
+const SignIn = () => {    
     const proxy = useSelector( state => state.proxy )
     const Alert = useSelector( state => state.Alert )
     const functions = useSelector( state => state.functions )
@@ -55,7 +55,7 @@ export default () => {
                 })
                 const serialized_data = await response.json()
                 const { data } = serialized_data
-                const { success, code, user } = data
+                const { success, user } = data
 
                 /**
                  * 
@@ -90,7 +90,7 @@ export default () => {
          */
 
         const keycode = e.keyCode;
-        if(keycode == 13){
+        if(keycode === 13){
             signRequest()
         }
 
@@ -166,3 +166,6 @@ export default () => {
         </div>
     )
 }
+
+
+export default SignIn

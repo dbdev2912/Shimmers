@@ -1,10 +1,10 @@
-export default ( state, action ) => {
+const Reducer = ( state, action ) => {
     switch (action.type) {
         case "alert-switch":                  
             return AlertSwitch(state, action)            
         default:
             return { ...state }
-            break;
+
     }
 }
 
@@ -19,3 +19,5 @@ const AlertSwitch = (state, action) => {
     state.Alert.state = action.payload.state
     return { ...state }
 }
+
+export default Reducer;
