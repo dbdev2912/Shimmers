@@ -67,10 +67,8 @@ class SignUp extends Controller {
                     /**
                      * If usename has already been used, set response content and code then response
                      */
-                    this.response.data.content = "Username already existed"
-                    this.response.data.code    = "ER_UN102"
-                    this.response.data.success = false
-                    this.responseStatus        = 200          
+
+                    this.throwResponse( false, 200, "Username already existed", "ER_UN102" )
                 }else{
                     /**
                      * 
@@ -86,15 +84,14 @@ class SignUp extends Controller {
                         await User.create({ ...data, avatar:`/images/avatar/${username}.png` })
                         const token = await this.tokenSign( username )
                         
-                        this.response.data.content  = "User created"
-                        this.response.data.code     = "SU_AU102"
+                        this.throwResponse(true, 200,"User created", "SU_AU102" )
                         this.response.data.user     = {
                             ...data,
                             password: undefined,
                             avatar: `/images/avatar/${username}.png`
                         }
                         this.response.data.token    = token
-                        this.responseStatus         = 200
+
                     }catch(err){
                         Auth.destroy({ where: { username } })
                         User.destroy({ where: { username } })
@@ -143,14 +140,10 @@ class SignIn extends Controller {
                             token  = tokenQuery.dataValues.token
                         }else{
                             token = await this.tokenSign(username )
-                        }
-                        
-                        this.response.data.success = true
-                        this.response.data.content = "Successfully signed in"
-                        this.response.data.code    = "SU_AU103"
+                        }                        
+                        this.throwResponse( true, 200,  "Successfully signed in", "SU_AU103" )
                         this.response.data.token   = token 
                         this.response.data.user    = userProfile
-                        this.responseStatus        = 200
 
                     }else{
                         this.throwSignFailedDueToWrongCredential()
@@ -162,11 +155,8 @@ class SignIn extends Controller {
         }
         this.UnauthorizeRequestDecorator(req, res, SignIn)
     }
-    throwSignFailedDueToWrongCredential = () => {
-        this.response.data.content = "Signed in fail due to wrong information"
-        this.response.data.code    = "ER_AU104"
-        this.response.data.success = false
-        this.responseStatus        = 200
+    throwSignFailedDueToWrongCredential = () => {    
+        this.throwResponse( false, 200, "Signed in fail due to wrong information", "ER_AU104" )
     }
 }
 
@@ -197,10 +187,7 @@ class Update extends Controller {
                  */
                 try{
                     await User.update({...data},{ where: { username }})
-                    this.response.data.success = true
-                    this.response.data.content = "User updated"
-                    this.response.data.code    = "SU_AU101"                                 
-                    this.responseStatus        = 200
+                    this.throwResponse( true, 200, "User updated", "SU_AU101")
                 }catch(err){
                     this.throw400BadRequest()
                 }                
@@ -215,14 +202,9 @@ class Update extends Controller {
             if( !image ){
                 this.throw400BadRequest()
             }else{
-                const croppingResult = await this.cropImage(image, username)
-                console.log(croppingResult)
+                const croppingResult = await this.cropImage(image, username)                
                 if( croppingResult ){
-
-                    this.response.data.success = true
-                    this.response.data.content = "User updated"
-                    this.response.data.code    = "SU_AU101"                                 
-                    this.responseStatus        = 200
+                    this.throwResponse(true, 200, "User updated", "SU_AU101" )
 
                 }else{
                     this.throw400BadRequest()
@@ -294,12 +276,7 @@ class SignOut extends Controller {
     post = async (req, res) => {
         const signOut = async (username) => {
             await this.tokenRevoke(username)
-
-            this.response.data.success = true
-            this.response.data.content = "Token roveked"
-            this.response.data.code    = "SU_AU104 "                                 
-            this.responseStatus        = 200
-
+            this.throwResponse( true, 200, "Token roveked", "SU_AU104" )
         }
         this.AuthorizedRequestDecorator(req, res, signOut)
     }

@@ -47,6 +47,20 @@ class Controller {
         }
     }
 
+    throwResponse = ( success, status, content, code ) => {
+        /**
+         * 
+         * Applay settings to response 
+         * 
+         */
+
+        this.response.data.success = success 
+        this.response.data.content = content 
+        this.response.data.code    = code 
+
+        this.responseStatus = status
+    }
+
     static throw404NotFound = (req, res) => {
         /**
          * 
@@ -169,7 +183,7 @@ class Controller {
          */
         this.init()
         const tokenString = req.header("Authorization");
-        const tokenQuery = await Token.findOne({ where: { token: tokenString } })
+        const tokenQuery = await Token.findOne({ where: { token: tokenString || "" } })
 
         if( tokenQuery ){
             const { username } = tokenQuery.dataValues            

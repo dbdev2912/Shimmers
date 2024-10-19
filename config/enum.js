@@ -16,8 +16,11 @@ const getDefaultResponseObject = () => {
     return { ...defaultResponseBody }
 }
 
+const maximumDataInASingleQuest = 4;
+
 module.exports = {
     getDefaultResponseObject,
     defaultResponseBody,
-    emailRegEx
+    emailRegEx,
+    maximumDataInASingleQuest
 }
