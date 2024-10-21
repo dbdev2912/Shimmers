@@ -1,11 +1,11 @@
 const { 
     getDefaultResponseObject, 
     defaultResponseBody 
-} = require('../config/enum')
+} = require('../../config/enum')
 
 const jwt = require('jsonwebtoken');
 
-const Token = require('../models/token')
+const Token = require('../../models/token')
 
 
 require('dotenv').config()
@@ -90,7 +90,7 @@ class Controller {
         this.response.data.success = false
         this.response.data.content = content
         this.response.data.code    = code      
-        this.responseStatus        = 400  
+        this.responseStatus        = 404  
     }
 
     throw403TokenExpired = () => {
@@ -101,14 +101,7 @@ class Controller {
     }
 
     validateReqBodyFields = (data = {}) => {
-        /**
-         * 
-         * If any field in data object is not included in this.validFields => return false
-         * 
-         */
-
-        let  valid = true;
-        const keys = Object.keys(data);
+        
 
         /**
          * Because validFields variable is defined in descendent class, we have to valid it first, 
@@ -116,10 +109,23 @@ class Controller {
          */
 
         const validFields = (this.validFields && Array.isArray(this.validFields)) ? this.validFields : []
+        return this.validateObjectFields( data, validFields )
+    }
+
+    validateObjectFields = ( data, fields ) => {
+
+        /**
+         * 
+         * Check if data only has given fields, no others
+         * 
+         */
+
+        let  valid = true;
+        const keys = Object.keys(data);
 
         for( let i = 0 ; i < keys.length; i++ ){
             const key = keys[i]
-            if( !validFields.includes(key) ){
+            if( !fields.includes(key) ){
                 valid = false
             }
         }
@@ -183,14 +189,13 @@ class Controller {
          */
         this.init()
         const tokenString = req.header("Authorization");
-        const tokenQuery = await Token.findOne({ where: { token: tokenString || "" } })
-
+        const tokenQuery = await Token.findOne({ where: { token: tokenString || "" } })        
         if( tokenQuery ){
-            const { username } = tokenQuery.dataValues            
-            await func( username )
+            const { username } = tokenQuery.dataValues 
+            await func( username )            
         }else{
             this.throw403TokenExpired()
-        }        
+        }                  
         res.status(this.responseStatus).send( this.response )
     }
 

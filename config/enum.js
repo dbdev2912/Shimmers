@@ -16,11 +16,16 @@ const getDefaultResponseObject = () => {
     return { ...defaultResponseBody }
 }
 
+const logger = ( ...data ) => {
+    console.log( ...data )
+}
+
 const maximumDataInASingleQuest = 4;
 
 module.exports = {
     getDefaultResponseObject,
     defaultResponseBody,
     emailRegEx,
-    maximumDataInASingleQuest
+    maximumDataInASingleQuest,
+    logger,
 }

@@ -1,7 +1,8 @@
 const status = [
     "active",
     "disabled",
-    "deleted"
+    "deleted",
+    "permanently_deleted"
 ]
 
 

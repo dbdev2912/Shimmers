@@ -2,7 +2,7 @@ const Auth = require('../models/auth')
 const User = require('../models/user')
 
 const Token = require('../models/token')
-const Controller = require('./controller.js')
+const Controller = require('./base/controller.js')
 
 const { hash, compare } = require('../config/encryptor')
 const sharp = require('sharp')

@@ -1,43 +1,48 @@
-const Controller = require('./controller.js')
+const ScheduledReminderBaseController = require('./base/reminder_controller.js')
 const { ScheduledReminders, ScheduledReminderCategories } = require('../models/scheduled_reminders.js')
-const { repetition, categories } = require('../models/modelEnums.js')
-const { maximumDataInASingleQuest } = require('../config/enum.js');
+const { repetition, status: statuses } = require('../models/modelEnums.js')
+const { maximumDataInASingleQuest, logger } = require('../config/enum.js');
 
-class ScheduledRemindersController extends Controller {
-    validFields = ["title", "description", "time", "place", "tag", "repeat", "categories"]
+class ScheduledRemindersController extends ScheduledReminderBaseController {
+    /**
+     * 
+     * This class will implement 2 methods including:
+     *  - Get   : get scheduled reminder list in paginated formate
+     *  - Post  : create a goddamn scheduled reminder
+     *  
+     */   
 
     constructor(){
         super()
     }
 
-    get = async (req, res) => {
-        /**
-         * 
-         * Suspend here
-         * 
-         */
-        const GetScheduledReminder = async ( username ) => {
+    get = (req, res) => {
+
+        const GetScheduledReminders = async ( username ) => {
             const { limit, offset } = this.solvePeriodParams( req.query )
             const data = await ScheduledReminders.findAll({
                 where: {
                     owner: username,
-                },
+                },      
                 limit,
                 offset,
                 include: [{ model: ScheduledReminderCategories }]
             })
-            this.throwResponse(true, 200,"Successfully retrieve remiders", "SU_AU201")
-            this.response.data.reminders = data
-        }
-        this.AuthorizedRequestDecorator(req, res,  GetScheduledReminder )
-    }
 
+            const formatedData = this.scheduledReminderListFormater(data)
+
+            this.throwResponse(true, 200,"Successfully retrieve remiders", "SU_AU201")
+            this.response.data.reminders = formatedData
+        }
+        this.AuthorizedRequestDecorator(req, res,  GetScheduledReminders )
+    }
 
 
     post = (req, res) => {
         /**
          * 
          * Create scheduled reminder
+         * Descendant jobs will be create separately due to optimizing purpose
          * 
          */
 
@@ -89,6 +94,8 @@ class ScheduledRemindersController extends Controller {
                             })
                             await ScheduledReminderCategories.bulkCreate(newReminderCates)
                         }
+                        this.throwResponse(true, 200, "Successfully created", "SU_AU202")
+                        this.response.data.reminder = this.scheduledReminderFormater(newReminder)
                     }
                 }
             }
@@ -96,22 +103,6 @@ class ScheduledRemindersController extends Controller {
         this.AuthorizedRequestDecorator( req, res, CreateScheduledReminder )
     }
 
-    categoriesCheck = (cates = []) => {
-        /**
-         * 
-         * Check if any category in categpry list is not included in default category enum set
-         * 
-         */
-
-        
-        for( let i = 0 ; i < cates.length; i++ ){
-            const cate = cates[i]
-            if( categories.indexOf(cate) === -1 ){
-                return false
-            }
-        }
-        return true
-    }
 
     solvePeriodParams = (params) => {
     /**
@@ -130,14 +121,14 @@ class ScheduledRemindersController extends Controller {
             return { limit: maximumDataInASingleQuest, offset: 0 }
         }else{
             const parsedFrom = parseInt( from )
-            if( !parsedFrom ){
+            if( Number.isNaN(parsedFrom) ){
                 /**
                  * From is not a number -> return default limit with offset = 0
                  */
                 return { limit: maximumDataInASingleQuest, offset: 0 }
             }else{                
                 const parsedTo = parseInt(to)
-                if( !parsedTo ){
+                if( Number.isNaN(parsedTo) ){
                     /**
                      * From is valid but to is not -> return default limit with offset = from
                      */
@@ -163,6 +154,146 @@ class ScheduledRemindersController extends Controller {
     
 }
 
+class ScheduledReminderController extends ScheduledReminderBaseController{
+    /**
+     * 
+     * This class will implement 4 methods including:
+     *  - Get   : Get a specific scheduled reminder using its ID
+     *  - Put   : Update scheduled reminder general information
+     *  - Patch : Switch Scheduled reminder state between proper methods
+     *  - Delete: We already had Patch method for setting states and we don't
+     *  truly delete scheduled reminders, so this method simply set a reminder
+     *  to state of "deleted" 
+     *  
+     */
+
+    constructor(){
+        super()
+    }
+    get = (req, res) => {
+        const GetOneScheduledReminder = async (reminder ) => {
+            /**
+             * 
+             * Get one scheduled reminder using reminder_id
+             * 
+             */            
+            this.throwResponse(true, 200, "Successfully retrieve remiders", "SU_AU201")
+            this.response.data.reminder = reminder                                
+            
+        }
+        this.IdSearchScheduledReminderDecorator( req, res, GetOneScheduledReminder )
+    }
+
+    put = async (req, res) => {
+        /**
+         * 
+         * Update reminder general infors and category list
+         * 
+         * Descendent jobs will be updated separately for performance optimizing purpose
+         * 
+         */
+        const UpdateScheduledReminder = async ( reminder ) => {     
+            
+            /**
+             * 
+             * These validating steps quite similar to ScheduledRemindersController.post() so we
+             * won't explain them again.
+             * 
+             */
+            const data = req.body;
+            const isBodyValid = this.validateReqBodyFields(data)
+
+            if( !isBodyValid ){
+                this.throw400BadRequest()
+            }else{
+                const { repeat } = data 
+                if( repetition.indexOf(repeat) === -1 ){
+                    this.throwResponse( false, 400, "Invalid repetition type", "ER_AU202" )
+                }else{
+                    const cates = ( data.categories && Array.isArray(data.categories)) ? data.categories : [];                    
+                    const areCatesAllValid = this.categoriesCheck( cates )
+                    if( !areCatesAllValid ){                        
+                        this.throwResponse( false, 400, "Invalid category set", "ER_AU203" )
+                    }else{   
+                        /**
+                         *
+                         * If everything is fine, update infomations
+                         *  
+                         */                     
+                        await ScheduledReminders.update(
+                            { ...data },
+                            {  
+                                where: {
+                                    reminder_id: reminder.reminder_id
+                                }
+                            }
+                        ) 
+
+                        /**
+                         * 
+                         * For now, we delete all existed categories and re-insert the new ones
+                         * The optimizing way will be implement if needed
+                         * 
+                         */
+                        await ScheduledReminderCategories.destroy({
+                            where: {
+                                reminder_id: reminder.reminder_id
+                            }
+                        })
+
+                        if( cates.length > 0 ){
+                            const newReminderCates = cates.map( cate => {
+                                return {
+                                    reminder_id: reminder.reminder_id,
+                                    category: cate
+                                }
+                            })
+                            await ScheduledReminderCategories.bulkCreate(newReminderCates)
+                        }
+
+                        this.throwResponse(true, 200, "Successfully updated", "SU_AU203")                       
+                    }
+                }
+            }
+        }
+        this.IdSearchScheduledReminderDecorator(req, res, UpdateScheduledReminder )
+    }
+
+    patch = async ( req, res ) => {
+        /**
+         * 
+         * Update scheduled reminder status
+         * 
+         */
+
+        const StatusPatch = async ( reminder ) => {
+            const data = req.body            
+            const isBodyValid = this.validateObjectFields( data, ["status"] )
+
+            if( !isBodyValid ){
+                this.throw400BadRequest()
+            }else{
+                const { status } = data;
+                if( statuses.indexOf(status) === -1 ){
+                    this.throwResponse(false, 400, "Invalid status value", "ER_AU207")
+                }else{
+                    await ScheduledReminders.update(
+                        { status }, 
+                        { 
+                            where: {
+                                reminder_id: reminder.reminder_id
+                            }
+                        }
+                    )
+                    this.throwResponse(true, 200, "Successfully update scheduled reminder", "SU_AU203")
+                }
+            }
+        }
+        this.IdSearchScheduledReminderDecorator(req, res, StatusPatch )
+    }
+}
+
 module.exports = {
     ScheduledRemindersController: new ScheduledRemindersController(),
+    ScheduledReminderController: new ScheduledReminderController(),
 }

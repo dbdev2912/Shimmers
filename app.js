@@ -15,7 +15,7 @@ const cors          = require('cors');
  * CUSTOMIZED MODULARS IMPORT
  */
 
-const Controller = require('./controllers/controller');
+const Controller = require('./controllers/base/controller');
 
 /**
  * .env CONFIG
