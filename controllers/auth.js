@@ -121,7 +121,9 @@ class SignIn extends Controller {
         const SignIn = async () => {
             const data = req.body;
             const isBodyValid = this.validateReqBodyFields(data)
-            if( !isBodyValid ){
+            const nullCheck   = this.nullCheck(data, ["username", "password" ])      
+
+            if( !isBodyValid || !nullCheck ){
                 this.throw400BadRequest("Wrong data format", "ER_UN101")
             }else{
                 const { username, password } = data;

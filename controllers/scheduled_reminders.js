@@ -291,6 +291,27 @@ class ScheduledReminderController extends ScheduledReminderBaseController{
         }
         this.IdSearchScheduledReminderDecorator(req, res, StatusPatch )
     }
+
+    delete = async (req, res) => {
+        /**
+         * 
+         * Update scheduled reminder status to permanently deleted
+         * 
+         */
+        const ScheduledReminderRemoval = async (reminder) => {
+            
+            await ScheduledReminders.update(
+                { status: "permanently_deleted" }, 
+                { 
+                    where: {
+                        reminder_id: reminder.reminder_id
+                    }
+                }
+            )
+            this.throwResponse(true, 200, "Successfully removed scheduled reminder", "SU_AU204")
+        }
+        this.IdSearchScheduledReminderDecorator(req, res, ScheduledReminderRemoval )
+    }
 }
 
 module.exports = {
