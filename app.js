@@ -69,9 +69,11 @@ app.use(cors( corsOptions ))
 
 const AuthApi = require('./routes/users');
 const ReminderApi = require('./routes/reminders')
+const Test = require('./routes/test')
 
 app.use('/api/auth', AuthApi);
 app.use('/api/reminders', ReminderApi);
+app.use('/api/test', Test)
 
 /**
  * 

@@ -1,16 +1,13 @@
 const { 
-    getDefaultResponseObject, 
-    defaultResponseBody 
+    getDefaultResponseObject,      
 } = require('../../config/enum')
 
 const jwt = require('jsonwebtoken');
-
 const Token = require('../../models/token')
 
 
 require('dotenv').config()
 const TOKEN_KEY = process.env.TOKEN_KEY
-const TOKEN_DURATION = process.env.TOKEN_DURATION
 
 class Controller {
     validFields     = []

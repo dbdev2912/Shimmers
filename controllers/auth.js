@@ -118,6 +118,7 @@ class SignIn extends Controller {
          * Sign in request
          * 
          */
+                
         const SignIn = async () => {
             const data = req.body;
             const isBodyValid = this.validateReqBodyFields(data)

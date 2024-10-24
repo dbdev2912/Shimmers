@@ -1,16 +1,22 @@
 class APIController {
     DOMAIN  = "http://127.0.0.1:5000";
-    TOKEN   = ""
+
+    PERMANENT_TOKEN = ""
+    TEMP_TOKEN      = ""
     constructor(){
 
     }
 
+    setPermanentToken = ( token ) => {
+        this.PERMANENT_TOKEN = token
+    }
+
     setToken = ( token ) => {
-        this.TOKEN = token
+        this.TEMP_TOKEN = token
     }
 
     getToken = () => {
-        return this.TOKEN
+        return this.TEMP_TOKEN
     }
 
     destroyToken = () => {
@@ -38,18 +44,27 @@ class APIController {
     makeRequestWithBody = async ( method, url, body, options = {} ) => {
         const { isAuthorized } = options;
 
-        const request   = await fetch( this.makeURL(url), {
-            method,
-            headers:  isAuthorized ? {
-                "content-type": "application/json",
-                "Authorization": this.getToken()
-            }: {
-                "content-type": "application/json"             
-            },
-            body: JSON.stringify({ ...body })
-        })
-        const response = await request.json()
-        return response;
+        try{
+            const request   = await fetch( this.makeURL(url), {
+                method,
+                headers:  isAuthorized ? {
+                    "content-type": "application/json",
+                    "Authorization": this.getToken()
+                }: {
+                    "content-type": "application/json"             
+                },
+                body: JSON.stringify({ ...body })
+            })
+            const response = await request.json()
+            return response;
+
+        }catch(err){
+            return {
+                "success": false,
+                "content": "500 - INTERNAL SERVER ERROR"
+            }
+        }
+        
     }
 
     PostAuthorized = async ( url, body ) => {
